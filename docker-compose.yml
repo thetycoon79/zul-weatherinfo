@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # WordPress with Apache
+  wordpress:
+    image: wordpress:6.4-php8.2-apache
+    container_name: zul_weather_wordpress
+    depends_on:
+      - db
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/zul-weatherinfo
+    networks:
+      - zul_weather_network
+    restart: unless-stopped
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: zul_weather_db
+    ports:
+      - "${DB_PORT:-3307}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - zul_weather_network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  # WP-CLI for automation
+  wpcli:
+    image: wordpress:cli-php8.2
+    container_name: zul_weather_wpcli
+    depends_on:
+      - wordpress
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/zul-weatherinfo
+      - ./docker/wp-cli:/scripts
+    networks:
+      - zul_weather_network
+    entrypoint: ["sh", "-c"]
+    command: ["echo 'WP-CLI ready. Use docker-compose run wpcli wp ...'"]
+
+  # PHPUnit for testing
+  phpunit:
+    image: composer:2
+    container_name: zul_weather_phpunit
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - composer_cache:/tmp/cache
+    networks:
+      - zul_weather_network
+    entrypoint: ["sh", "-c"]
+    command: ["echo 'PHPUnit container ready. Use docker-compose run phpunit /scripts/run-tests.sh'"]
+
+  # phpMyAdmin (optional, for debugging)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: zul_weather_phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: wordpress
+      PMA_PASSWORD: wordpress
+    networks:
+      - zul_weather_network
+    profiles:
+      - debug
+
+volumes:
+  wordpress_data:
+  db_data:
+  composer_cache:
+
+networks:
+  zul_weather_network:
+    driver: bridge

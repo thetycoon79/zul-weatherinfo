@@ -1,0 +1,31 @@
+{
+    "name": "zul/weather-info",
+    "description": "WordPress plugin for displaying weather information",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6",
+        "brain/monkey": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zul\\Weather\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zul\\Weather\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

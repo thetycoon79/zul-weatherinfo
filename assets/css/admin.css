@@ -1,0 +1,122 @@
+/**
+ * ZUL Weather Info - Admin Styles
+ *
+ * @package Zul\Weather
+ */
+
+/* Status badges */
+.zul-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.zul-status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.zul-status-inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Location table */
+.zul-weather-table .column-title {
+    width: 25%;
+}
+
+.zul-weather-table .column-coordinates {
+    width: 15%;
+}
+
+.zul-weather-table .column-status {
+    width: 10%;
+}
+
+.zul-weather-table .column-shortcode {
+    width: 20%;
+}
+
+.zul-weather-table .column-author {
+    width: 15%;
+}
+
+.zul-weather-table .column-date {
+    width: 15%;
+}
+
+.zul-weather-table .column-coordinates code {
+    background: #f0f0f1;
+    padding: 2px 5px;
+    font-size: 11px;
+}
+
+.zul-weather-table .column-shortcode code {
+    background: #f0f0f1;
+    padding: 2px 5px;
+    font-size: 11px;
+    user-select: all;
+}
+
+/* Edit form */
+#zul-weather-form #titlewrap input {
+    padding: 3px 8px;
+    font-size: 1.7em;
+    line-height: 1.3;
+    height: 1.7em;
+    width: 100%;
+    outline: none;
+    margin: 0;
+    background-color: #fff;
+}
+
+#zul-weather-form .postbox .inside table.form-table {
+    margin: 0;
+}
+
+#zul-weather-form .postbox .inside table.form-table th {
+    width: 120px;
+    padding: 15px 10px 15px 0;
+}
+
+#zul-weather-form .postbox .inside table.form-table td {
+    padding: 10px 0;
+}
+
+/* Misc publish section */
+#zul-weather-form .misc-pub-section {
+    padding: 6px 10px;
+    border-bottom: 1px solid #dcdcde;
+}
+
+#zul-weather-form .misc-pub-section:last-child {
+    border-bottom: none;
+}
+
+#zul-weather-form .misc-pub-section code {
+    font-size: 11px;
+    background: #f0f0f1;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-top: 3px;
+    user-select: all;
+}
+
+/* Filters */
+.zul-weather-filters .tablenav.top {
+    margin: 0;
+    padding-top: 0;
+}
+
+/* Settings page */
+.form-table input.regular-text {
+    width: 350px;
+}
+
+.form-table input.small-text {
+    width: 80px;
+}

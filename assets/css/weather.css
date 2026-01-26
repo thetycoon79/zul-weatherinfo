@@ -1,0 +1,177 @@
+/**
+ * ZUL Weather Info - Frontend Styles
+ *
+ * @package Zul\Weather
+ */
+
+/* Main widget container */
+.zul-weather-widget {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 24px;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    max-width: 320px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Demo data notice */
+.zul-weather-notice {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+/* Header */
+.zul-weather-header {
+    margin-bottom: 16px;
+}
+
+.zul-weather-location {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.zul-weather-location-desc {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+/* Main weather display */
+.zul-weather-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.zul-weather-icon img {
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.zul-weather-temp {
+    display: flex;
+    align-items: flex-start;
+}
+
+.zul-weather-temp .temp-value {
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.zul-weather-temp .temp-unit {
+    font-size: 24px;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+/* Weather condition */
+.zul-weather-condition {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+/* Details */
+.zul-weather-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.zul-weather-detail {
+    font-size: 13px;
+}
+
+.zul-weather-detail .detail-label {
+    opacity: 0.7;
+    margin-right: 4px;
+}
+
+.zul-weather-detail .detail-value {
+    font-weight: 500;
+}
+
+/* Unavailable message (shown to all users) */
+.zul-weather-widget.zul-weather-unavailable {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    text-align: center;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zul-weather-message {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.95;
+    padding: 8px;
+}
+
+/* Error message (admin only) */
+.zul-weather-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    border-left: 4px solid #721c24;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .zul-weather-widget {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .zul-weather-location {
+        font-size: 18px;
+    }
+
+    .zul-weather-temp .temp-value {
+        font-size: 48px;
+    }
+
+    .zul-weather-temp .temp-unit {
+        font-size: 20px;
+    }
+
+    .zul-weather-icon img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Alternative light theme - use class="zul-weather-light" */
+.zul-weather-widget.zul-weather-light {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.zul-weather-widget.zul-weather-light .zul-weather-notice {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.zul-weather-widget.zul-weather-light .zul-weather-details {
+    border-top-color: #e0e0e0;
+}
+
+.zul-weather-widget.zul-weather-light .zul-weather-detail .detail-label {
+    opacity: 0.6;
+}

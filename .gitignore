@@ -1,0 +1,55 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Composer
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+/coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# Build artifacts
+/build/
+/dist/
+
+# AI assistants
+/.chatgpt/
+/.copilot/
+/.github-copilot/
+/.ai-assistant/
+/.ai-suggestions/
+/.codeium/
+/.tabnine/
+/.replit/
+/.kite/
+/.sourcery/
+/.intellicode/
+/.codium/
+/.gpt4code/
+/.codegpt/
+/.aicode/
+/.aicodex/
+/.aicoder/
+/.claude/
