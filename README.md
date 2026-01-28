@@ -11,6 +11,20 @@ A WordPress plugin that displays weather information for configured locations us
 - **Shortcode Display** - Easy frontend integration via `[zul_weather]` shortcode
 - **Responsive Design** - Modern, mobile-friendly weather widget
 
+## Screenshots
+
+### Weather Widget (Frontend)
+![Demo Page](screenshots/demoPage.png)
+
+### Location Management
+![Weather Info Main](screenshots/weatherInfoMain.png)
+
+### Add/Edit Location
+![Add Location](screenshots/weatherInfoAddLocation.png)
+
+### API Settings
+![API Settings](screenshots/weatherInfoAPISetting.png)
+
 ## Requirements
 
 - WordPress 6.0 or higher
