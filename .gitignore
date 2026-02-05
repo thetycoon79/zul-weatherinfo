@@ -23,6 +23,7 @@ Thumbs.db
 
 # Environment
 .env
+.env.ports
 
 # Docker
 docker-compose.override.yml
