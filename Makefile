@@ -1,7 +1,7 @@
 # ZUL Weather Info - Makefile
 # Convenience commands for development
 
-.PHONY: start stop restart logs shell test install clean help
+.PHONY: start stop restart logs shell test install clean help submodules
 
 # Default target
 help:
@@ -20,10 +20,18 @@ help:
 	@echo "  install    Install Composer dependencies"
 	@echo "  clean      Remove Docker volumes and data"
 	@echo "  ports      Check port availability"
+	@echo "  submodules Initialize git submodules"
 	@echo ""
 
+# Initialize git submodules if needed
+submodules:
+	@if [ ! -f tools/zul-check-ports/check-ports ]; then \
+		echo "Initializing git submodules..."; \
+		git submodule update --init --recursive; \
+	fi
+
 # Start the Docker environment
-start:
+start: submodules
 	@./start.sh
 
 # Stop the Docker environment
@@ -54,7 +62,7 @@ install:
 	@composer install
 
 # Check port availability
-ports:
+ports: submodules
 	@./docker/scripts/check-ports.sh
 
 # Clean up Docker volumes and data
