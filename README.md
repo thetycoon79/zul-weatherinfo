@@ -43,25 +43,43 @@ A WordPress plugin that displays weather information for configured locations us
 ### Docker Installation (Development)
 
 ```bash
-# Copy environment file and customize ports if needed
-cp .env.example .env
+# Clone with submodules
+git clone --recurse-submodules <repository-url>
+
+# Or if already cloned, initialize submodules
+git submodule update --init --recursive
 
 # Start the Docker environment
 ./start.sh
-
-# Or with custom ports (overrides .env)
-WP_PORT=8084 DB_PORT=3308 ./start.sh
 ```
 
-#### Environment Variables
+#### Automatic Port Management
 
-Copy `.env.example` to `.env` to customize your development environment:
+This project uses [zul-check-ports](https://github.com/thetycoon79/zul-check-ports) as a git submodule to automatically handle port conflicts. When you run `./start.sh`:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `WP_PORT` | 8080 | WordPress port |
-| `DB_PORT` | 3307 | MySQL port |
-| `PMA_PORT` | 8081 | phpMyAdmin port |
+1. The port checker scans for available ports
+2. If default ports are in use, it automatically finds alternatives
+3. Assigned ports are saved to `.env.ports`
+4. Docker Compose uses these dynamically assigned ports
+
+```bash
+# Example output when ports are in use:
+Checking for available ports...
+
+✓ WP: 8087 (default 8080 was in use)
+✓ DB: 3310 (default 3307 was in use)
+✓ PMA: 8088 (default 8081 was in use)
+
+Port configuration saved to .env.ports
+```
+
+#### Default Ports
+
+| Variable   | Default | Fallback Range | Description |
+|------------|---------|----------------|-------------|
+| `WP_PORT`  | 8080    | 8080-8199      | WordPress port |
+| `DB_PORT`  | 3307    | 3307-3399      | MySQL port |
+| `PMA_PORT` | 8081    | 8081-8199      | phpMyAdmin port |
 
 ## Configuration
 
@@ -143,10 +161,12 @@ The weather widget displays:
 zul-weatherinfo/
 ├── zul-weather-info.php          # Main plugin file
 ├── uninstall.php                 # Cleanup on uninstall
+├── start.sh                      # Docker environment starter
 ├── mock_response.json            # Fallback mock data
 ├── composer.json                 # PHP dependencies
 ├── phpunit.xml                   # Test configuration
 ├── docker-compose.yml            # Docker configuration
+├── .env.ports                    # Generated port assignments (gitignored)
 ├── includes/
 │   ├── Plugin.php                # Main orchestrator
 │   ├── Activation.php            # Database setup
@@ -165,6 +185,11 @@ zul-weatherinfo/
 ├── assets/
 │   ├── css/                      # Stylesheets
 │   └── js/                       # JavaScript
+├── docker/
+│   └── scripts/
+│       └── check-ports.sh        # Port checker wrapper script
+├── tools/
+│   └── zul-check-ports/          # Git submodule for port management
 └── tests/                        # PHPUnit tests
 ```
 
@@ -206,6 +231,65 @@ make test       # Run PHPUnit tests
 make logs       # View container logs
 make shell      # Open WordPress container shell
 make clean      # Remove Docker volumes
+```
+
+### Git Submodules
+
+This project uses [zul-check-ports](https://github.com/thetycoon79/zul-check-ports) as a git submodule for automatic port management.
+
+#### Initial Setup
+
+When cloning the repository, include submodules:
+
+```bash
+git clone --recurse-submodules <repository-url>
+```
+
+Or if you've already cloned without submodules:
+
+```bash
+git submodule update --init --recursive
+```
+
+#### Updating the Submodule
+
+To update to the latest version of zul-check-ports:
+
+```bash
+cd tools/zul-check-ports
+git pull origin main
+cd ../..
+git add tools/zul-check-ports
+git commit -m "Update zul-check-ports submodule"
+```
+
+#### How Port Checking Works
+
+The `docker/scripts/check-ports.sh` wrapper script:
+
+1. Calls the `zul-check-ports` tool with project-specific port configurations
+2. Checks if default ports (8080, 3307, 8081) are available
+3. If a port is in use, finds the next available port in the fallback range
+4. Writes assigned ports to `.env.ports` file
+5. `start.sh` sources this file and exports variables for docker-compose
+
+```bash
+# Manual port check (without starting Docker)
+./docker/scripts/check-ports.sh
+
+# View assigned ports
+cat .env.ports
+```
+
+#### Customizing Port Ranges
+
+Edit `docker/scripts/check-ports.sh` to modify port specifications:
+
+```bash
+# Format: NAME:DEFAULT:RANGE_START:RANGE_END
+WP:8080:8080:8199      # WordPress: try 8080, fallback to 8080-8199
+DB:3307:3307:3399      # MySQL: try 3307, fallback to 3307-3399
+PMA:8081:8081:8199     # phpMyAdmin: try 8081, fallback to 8081-8199
 ```
 
 ## Database
