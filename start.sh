@@ -14,18 +14,14 @@ echo "ZUL Weather Info - Docker Environment"
 echo "=========================================="
 echo ""
 
-# Load .env file if exists
-if [ -f .env ]; then
-    echo "Loading configuration from .env file..."
-    export $(cat .env | grep -v '^#' | xargs)
+# Initialize git submodules if needed
+if [ ! -f tools/zul-check-ports/check-ports ]; then
+    echo "Initializing git submodules..."
+    git submodule update --init --recursive
+    echo ""
 fi
 
-# Set defaults
-export WP_PORT=${WP_PORT:-8080}
-export DB_PORT=${DB_PORT:-3307}
-export PMA_PORT=${PMA_PORT:-8081}
-
-# Check port availability
+# Check port availability and generate .env.ports
 echo "Checking port availability..."
 if ! ./docker/scripts/check-ports.sh; then
     echo ""
@@ -34,6 +30,14 @@ if ! ./docker/scripts/check-ports.sh; then
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 1
     fi
+fi
+
+# Source the generated ports file
+if [ -f .env.ports ]; then
+    source .env.ports
+    export WP_PORT
+    export DB_PORT
+    export PMA_PORT
 fi
 
 echo ""
